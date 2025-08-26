@@ -2,6 +2,7 @@ import functools
 import inspect
 import joblib
 import numpy as np
+import os
 import re
 import sklearn.pipeline
 import transformers
@@ -37,6 +38,8 @@ from torchvision.transforms import v2 as transforms  # noqa: E402
 DatasetModality = Union[Type[TabularDatasetMixin], Type[ImageDatasetMixin], Type[TextDatasetMixin]]
 
 transformers.utils.logging.set_verbosity_error()
+
+HUGGINGFACE_CACHE_DIR = os.path.join("var", "hf-cache")
 
 
 class ProvenancePipeline(sklearn.pipeline.Pipeline):
@@ -402,7 +405,7 @@ class ResNet18EmbeddingPipeline(
 
     @classmethod
     def get_model(cls: Type["ResNet18EmbeddingPipeline"]) -> PreTrainedModel:
-        model = ResNetModel.from_pretrained("microsoft/resnet-18")
+        model = ResNetModel.from_pretrained("microsoft/resnet-18", cache_dir=HUGGINGFACE_CACHE_DIR)
         return model
 
 
@@ -415,7 +418,7 @@ class ResNet50EmbeddingPipeline(
 
     @classmethod
     def get_model(cls: Type["ResNet50EmbeddingPipeline"]) -> PreTrainedModel:
-        model = ResNetModel.from_pretrained("microsoft/resnet-50")
+        model = ResNetModel.from_pretrained("microsoft/resnet-50", cache_dir=HUGGINGFACE_CACHE_DIR)
         return model
 
 
